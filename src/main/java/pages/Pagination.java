@@ -10,12 +10,15 @@ public class Pagination extends BasePage {
     private final String NUMBERED_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-%d']";
     private final String NEXT_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-next']";
     private final String LAST_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-last']";
-//    private final String LAST_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-next']//ancestor::span//preceding-sibling::span[position() = 1]";
+    //    private final String LAST_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-next']//ancestor::span//preceding-sibling::span[position() = 1]";
     private final String LAST_PAGE_NUMBER = LAST_PAGE_BTN + "//span";
     private final String CURRENT_PAGE_NUMBER = BASE + "//span[@data-cy = 'page-link-current']";
     private final String FIRST_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-prev']//ancestor::span//following-sibling::span[position() = 1]";
 
     private int pageCount = -1;
+
+    @FindBy(xpath = BASE)
+    WebElement base;
 
     @FindBy(xpath = PREV_PAGE_BTN)
     WebElement previousPageButton;
@@ -45,7 +48,7 @@ public class Pagination extends BasePage {
     public Pagination goFirstPage() {
         if (getCurrentPageNumber() != 1) {
             waitLoadedAndScrollToItself();
-            firstPageButton.click();
+            clickElement(firstPageButton);
         }
         return this;
     }
@@ -53,7 +56,7 @@ public class Pagination extends BasePage {
     public Pagination goPrevPage() {
         if (getCurrentPageNumber() != 1) {
             waitLoadedAndScrollToItself();
-            previousPageButton.click();
+            clickElement(previousPageButton);
         }
         return this;
     }
@@ -74,14 +77,14 @@ public class Pagination extends BasePage {
                 }
             }
         }
-        WebUtils.getElement(getPageBtnPath(index)).click();
+        clickElement(WebUtils.getElement(getPageBtnPath(index)));
         waitLoadedAndScrollToItself();
         return this;
     }
 
     public Pagination goNextPage() {
         if (getCurrentPageNumber() != getPagesCount()) {
-            nextPageButton.click();
+            clickElement(nextPageButton);
             waitLoadedAndScrollToItself();
         }
         return this;
@@ -89,7 +92,7 @@ public class Pagination extends BasePage {
 
     public Pagination goLastPage() {
         if (getCurrentPageNumber() != getPagesCount()) {
-            lastPageButton.click();
+            clickElement(lastPageButton);
             waitLoadedAndScrollToItself();
         }
         return this;
@@ -103,11 +106,11 @@ public class Pagination extends BasePage {
 
     public boolean isCurrentPage(int index) {
         validateIndex(index);
-        return index==getCurrentPageNumber();
+        return index == getCurrentPageNumber();
     }
 
     public Pagination scrollToItself() {
-        WebUtils.scrollToElement(WebUtils.getElement(BASE));
+        WebUtils.scrollToElement(base);
         return this;
     }
 
@@ -126,6 +129,7 @@ public class Pagination extends BasePage {
     }
 
     private int getCurrentPageNumber() {
+        WebUtils.waitUntilElementVisible(currentPageNumber);
         return Integer.parseInt(currentPageNumber.getAttribute("innerText"));
     }
 

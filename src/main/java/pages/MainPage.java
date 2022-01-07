@@ -1,10 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import utils.Factory;
 import utils.ResultSearch;
 import utils.SaveToFile;
@@ -15,8 +12,6 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.elementToBeClickable;
 
 public class MainPage extends BasePage {
 
@@ -65,7 +60,8 @@ public class MainPage extends BasePage {
 
     public String dateSave() {
         String nameFile = "output.csv";
-        String status = "Saving data to file \"" + nameFile + "\": error";;
+        String status = "Saving data to file \"" + nameFile + "\": error";
+        ;
         try {
             SaveToFile SaveToFile = new SaveToFile();
             SaveToFile.saveDateToFile(ListResultSearch, nameFile);
@@ -88,7 +84,7 @@ public class MainPage extends BasePage {
         BigDecimal average = null;
         BigDecimal a = BigDecimal.valueOf(getSumPrice());
         BigDecimal b = BigDecimal.valueOf(ListResultSearch.size());
-        if (ListResultSearch.size()!=0) {
+        if (ListResultSearch.size() != 0) {
             average = a.divide(b, 2, RoundingMode.HALF_UP);
         }
         return average;

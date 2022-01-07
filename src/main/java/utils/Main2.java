@@ -2,9 +2,7 @@ package utils;
 
 import core.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import pages.LoginPage;
 import pages.MainPage;
-import pages.MyAccountPage;
 import pages.Pagination;
 
 public class Main2 {
@@ -17,7 +15,7 @@ public class Main2 {
     private static String Address = "https://www.olx.ua";//"https://www.olx.ua/";
     private static String request = "сверлильный станок";
 
-    static WebDriver driver= WebDriverManager.getDriver();
+    static WebDriver driver = WebDriverManager.getDriver();
 
     public static void main(String[] args) {
 
@@ -28,7 +26,7 @@ public class Main2 {
                 .userLogin()
                 .gotoMainPage();
 
-        System.out.println("Search: "+ request);
+        System.out.println("Search: " + request);
         mainPage.search(request);
         mainPage.getResultSearchPage();
         System.out.println(mainPage.dateSave());
