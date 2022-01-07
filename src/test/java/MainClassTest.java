@@ -1,52 +1,37 @@
-
-
-import org.junit.After;
-import org.junit.Before;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import pages.LoginPage;
 import pages.MainPage;
+import pages.Pagination;
+import utils.Factory;
+import utils.Logger;
 
-import java.util.concurrent.TimeUnit;
-
-public class MainClassTest {
-    private WebDriver driver;
-    private MainPage mainPage;
-
-    @BeforeClass
-    public void BeforeClassMethod() {
-//        String PathDriver = "C:\\jdk\\Project\\Driver\\msedgedriver.exe";
-//        String BrowserDriver = "webdriver.edge.driver";
-//        String Address = "https://www.olx.ua";//"https://www.olx.ua/";
-//        System.setProperty(BrowserDriver, PathDriver);
-//        driver = new EdgeDriver();
-//        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//        driver.manage().window().maximize();
-//        driver.get(Address);
-//        System.out.println("Driver OK");
-//        mainPage = new MainPage();
-    }
-
-    @Before
-    public void setUp() {
-    }
+public class MainClassTest extends BaseTest {
 
     @Test
     public void Test1() {
-        System.out.println("works!");
+        MainPage mainPage = Factory.initPage(MainPage.class)
+                .goToLoginPage()
+                .userLogin()
+                .gotoMainPage();
+
+        Logger.logInfo("Search: " + request);
+        mainPage.search(request);
+        mainPage.getResultSearchPage();
+        Logger.logInfo(mainPage.dateSave());
+        Logger.logInfo("Sum of prices: " + mainPage.getSumPrice() + " грн.");
+        Logger.logInfo("Average prices: " + mainPage.getAveragePrice() + " грн.");
+        Logger.logInfo("Number of results: " + mainPage.getSizePrice());
+
+        Pagination pagination = new Pagination();
+        Logger.logInfo("" + pagination.isCurrentPage(1));
+        pagination.goToPageByIndex(1)
+                .goPrevPage()
+                .goNextPage()
+                .goToPageByIndex(2)
+                .goLastPage()
+                .goFirstPage();
+        Logger.logInfo("" + pagination.isCurrentPage(1));
+        Logger.logInfo("" + pagination.isCurrentPage(2));
+        Logger.logErr("finished");
+
     }
-
-    @After
-    public void tearDown() {
-    }
-
-    @AfterClass
-    public void afterClassMetod() {
-    }
-
-
 }

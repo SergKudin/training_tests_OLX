@@ -117,7 +117,7 @@ public class WebDriverManager {
         System.setProperty(BrowserDriver, PathDriver);
         driver = new EdgeDriver(options);
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+//        driver.manage().window().maximize();
         Logger.logInfo("Driver OK");
         return driver;
     }
