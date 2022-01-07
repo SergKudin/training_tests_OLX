@@ -15,36 +15,36 @@ public class Main2 {
     private static String Address = "https://www.olx.ua";//"https://www.olx.ua/";
     private static String request = "сверлильный станок";
 
-    static WebDriver driver = WebDriverManager.getDriver();
+    static WebDriver driver = WebDriverManager.getDriverOld();
 
     public static void main(String[] args) {
 
         driver.get(Address);
-        System.out.println("Driver OK");
+
         MainPage mainPage = Factory.initPage(MainPage.class)
                 .goToLoginPage()
                 .userLogin()
                 .gotoMainPage();
 
-        System.out.println("Search: " + request);
+        Logger.logInfo("Search: " + request);
         mainPage.search(request);
         mainPage.getResultSearchPage();
-        System.out.println(mainPage.dateSave());
-        System.out.println("Sum of prices: " + mainPage.getSumPrice() + " грн.");
-        System.out.println("Average prices: " + mainPage.getAveragePrice() + " грн.");
-        System.out.println("Number of results: " + mainPage.getSizePrice());
+        Logger.logInfo(mainPage.dateSave());
+        Logger.logInfo("Sum of prices: " + mainPage.getSumPrice() + " грн.");
+        Logger.logInfo("Average prices: " + mainPage.getAveragePrice() + " грн.");
+        Logger.logInfo("Number of results: " + mainPage.getSizePrice());
 
         Pagination pagination = new Pagination();
-        System.out.println(pagination.isCurrentPage(1));
-        pagination.goToPageByIndex(1);
-        pagination.goPrevPage();
-        pagination.goNextPage();
-        pagination.goToPageByIndex(2);
-        pagination.goLastPage();
-        pagination.goFirstPage();
-        System.out.println(pagination.isCurrentPage(1));
-        System.out.println(pagination.isCurrentPage(2));
-//
-//        driver.quit();
+        Logger.logInfo("" + pagination.isCurrentPage(1));
+        pagination.goToPageByIndex(1)
+                .goPrevPage()
+                .goNextPage()
+                .goToPageByIndex(2)
+                .goLastPage()
+                .goFirstPage();
+        Logger.logInfo("" + pagination.isCurrentPage(1));
+        Logger.logInfo("" + pagination.isCurrentPage(2));
+        Logger.logErr("finished");
+        driver.quit();
     }
 }

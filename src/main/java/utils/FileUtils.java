@@ -9,6 +9,7 @@ import java.nio.file.StandardCopyOption;
 
 public class FileUtils {
     public static final Path SCREENSHOTS_DIR_PATH = Paths.get("target/results/screenshots").toAbsolutePath();
+    public static final Path DOWNLOADS_PATH = Paths.get("target/results/downloads").toAbsolutePath();
     public static void copy(Path original, Path target) {
         try {
             Files.copy(original, target, StandardCopyOption.REPLACE_EXISTING);
