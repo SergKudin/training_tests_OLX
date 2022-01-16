@@ -64,6 +64,11 @@ public class Pagination extends BasePage {
     public Pagination goToPageByIndex(int index) {
         validateIndex(index);
         if (getCurrentPageNumber() == index) return this;
+        if (getPagesCount() == index) {
+            goNextPage();
+            waitLoadedAndScrollToItself();
+            return this;
+        }
         if (!isPageButtonVisible(index)) {
             if (getCurrentPageNumber() < index) {
                 while (!isPageButtonVisible(index)) {

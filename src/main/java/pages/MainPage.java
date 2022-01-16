@@ -2,10 +2,8 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import utils.Credentialable;
-import utils.Factory;
-import utils.ResultSearch;
-import utils.SaveToFile;
+import org.openqa.selenium.support.FindBy;
+import utils.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,92 +14,35 @@ import java.util.List;
 
 public class MainPage  extends BasePage implements Credentialable {
 
-    private static String xpLoginPage = "//a[@id='topLoginLink']";
-    private static String xpSearch = "//input[@id='headerSearch']";
-    private static String xpButtonSearch = "//input[@id='submit-searchmain']";
-    private static String xpSearchPages = "//span[@class='item fleft']";
-    private static String xpSearchPagesBlock = "//span[@class='block fleft']";
-    private static String xpSearchResults = "//tr[@class='wrap']";
-    private static String xpSearchResultsTitle = "//td[@class='title-cell ']";
-    private static String xpSearchResultsPrice = "//td[@class='wwnormal tright td-price']";
+    private static final String LOGIN_PAGE = "//a[@id='topLoginLink']";
+    private static final String SEARCH = "//input[@id='headerSearch']";
+    private static final String BUTTON_SEARCH = "//input[@id='submit-searchmain']";
 
-    private static HashMap<Integer, WebElement> SearchPages = new HashMap();
-    private static ArrayList<ResultSearch> ListResultSearch = new ArrayList<>();
+    @FindBy(xpath = LOGIN_PAGE)
+    private WebElement loginPage;
+    @FindBy(xpath = SEARCH)
+    private WebElement search;
+    @FindBy(xpath = BUTTON_SEARCH)
+    private WebElement buttonSearch;
 
     public MainPage() {
+        super();
+        WebUtils.waitUntilElementVisible(homeButton);
     }
 
     public LoginPage goToLoginPage() {
-        driver.findElement(By.xpath(xpLoginPage)).click();
+        clickElement(loginPage);
+//        driver.findElement(By.xpath(xpLoginPage)).click();
         return Factory.initPage(LoginPage.class);
     }
 
-    public MainPage search(String request) {
-        driver.findElement(By.xpath(xpSearch)).sendKeys(request);
-        driver.findElement(By.xpath(xpButtonSearch)).submit();
-        return Factory.initPage(MainPage.class);
+    public SearchPage search(String request) {
+        Logger.logInfo("Search: " + request);
+//        driver.findElement(By.xpath(xpSearch)).sendKeys(request);
+//        driver.findElement(By.xpath(xpButtonSearch)).submit();
+        search.sendKeys(request);
+        buttonSearch.submit();
+        return new SearchPage(); //return Factory.initPage(SearchPage.class);
     }
 
-    public MainPage getResultSearchPage() {
-        String NameLot;
-        String Price;
-        List<WebElement> ResultTitle;
-        List<WebElement> ResultPrice;
-        ResultTitle = driver.findElements(By.xpath(xpSearchResultsTitle));
-        ResultPrice = driver.findElements(By.xpath(xpSearchResultsPrice));
-        for (int i = 0; i < ResultTitle.size(); i++) {
-            System.out.print(i);
-            NameLot = ResultTitle.get(i).getText();
-            Price = ResultPrice.get(i).getText();
-            System.out.print(". " + NameLot);
-            System.out.println("; Price = " + Price);
-            ListResultSearch.add(new ResultSearch(NameLot, Price));
-        }
-        return Factory.initPage(MainPage.class);
-    }
-
-    public MainPage getResultSearch(){
-        Pagination pagination = new Pagination();
-        for (int i = 1; i<=pagination.getLastPageNumber(); i++) {
-            pagination.goToPageByIndex(i);
-            getResultSearchPage();
-        }
-        return Factory.initPage(MainPage.class);
-    }
-
-    public String dateSave() {
-        String nameFile = "output.csv";
-        String status = "Saving data to file '" + nameFile + "': error";
-
-        try {
-            SaveToFile SaveToFile = new SaveToFile();
-            SaveToFile.saveDateToFile(ListResultSearch, nameFile);
-            status = "Saving data to file '" + nameFile + "': OK";
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return status;
-    }
-
-    public Integer getSumPrice() {
-        Integer Sum = 0;
-        for (ResultSearch i : ListResultSearch) {
-            Sum += i.getPrice();
-        }
-        return Sum;
-    }
-
-    public BigDecimal getAveragePrice() {
-        BigDecimal average = null;
-        BigDecimal a = BigDecimal.valueOf(getSumPrice());
-        BigDecimal b = BigDecimal.valueOf(ListResultSearch.size());
-        if (ListResultSearch.size() != 0) {
-            average = a.divide(b, 2, RoundingMode.HALF_UP);
-        }
-        return average;
-    }
-
-    public int getSizePrice() {
-        return ListResultSearch.size();
-    }
 }

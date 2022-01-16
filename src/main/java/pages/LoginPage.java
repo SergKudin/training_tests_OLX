@@ -10,14 +10,14 @@ import utils.WebUtils;
 public class LoginPage extends BasePage implements Credentialable {
 
     private static final String BASE = "//section[@class='login-page has-animation']";
-    private static final String XP_LOGIN = BASE + "//input[@id='userEmail']";
-    private static final String XP_PASS = BASE + "//input[@id='userPass']";
-    private static final String XP_BUTTON = BASE + "//button[@id='se_userLogin']";
-    @FindBy(xpath = "//section[@class='login-page has-animation']//input[@id='userEmail']")
+    private static final String LOGIN = BASE + "//input[@id='userEmail']";
+    private static final String PASS = BASE + "//input[@id='userPass']";
+    private static final String BUTTON = BASE + "//button[@id='se_userLogin']";
+    @FindBy(xpath = LOGIN) //"//section[@class='login-page has-animation']//input[@id='userEmail']")
     private WebElement loginInput;
-    @FindBy(xpath = "//section[@class='login-page has-animation']//input[@id='userPass']")
+    @FindBy(xpath = PASS) //"//section[@class='login-page has-animation']//input[@id='userPass']")
     private WebElement passInput;
-    @FindBy(xpath = "//section[@class='login-page has-animation']//button[@id='se_userLogin']")
+    @FindBy(xpath = BUTTON) //"//section[@class='login-page has-animation']//button[@id='se_userLogin']")
     private WebElement submitButton;
     @FindBy(xpath = BASE)
     private WebElement loginPage;

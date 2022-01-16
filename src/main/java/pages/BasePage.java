@@ -3,14 +3,20 @@ package pages;
 import core.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.Factory;
 import utils.WebUtils;
 
 public class BasePage {
     protected WebDriver driver = WebDriverManager.getDriver();
     protected final Logger logger;
+    private static final String HOME_LOGO = "//a[@id='headerLogo']";
+
+    @FindBy(xpath = HOME_LOGO)
+    WebElement homeButton;
 
     public BasePage() {
         PageFactory.initElements(driver, this);
@@ -66,7 +72,12 @@ public class BasePage {
             }
         }
         logger.info(log.toString());
-        WebUtils.pause(100);
+        WebUtils.pause(900);
     }
 
+    public MainPage gotoMainPage() {
+        clickElement(homeButton);
+        return Factory.initPage(MainPage.class);
+//        return new MainPage();
+    }
 }
