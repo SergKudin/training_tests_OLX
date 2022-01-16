@@ -133,6 +133,10 @@ public class Pagination extends BasePage {
         return Integer.parseInt(currentPageNumber.getAttribute("innerText"));
     }
 
+    public int getLastPageNumber() {
+        return Integer.parseInt(lastPageNumber.getAttribute("innerText"));
+    }
+
     private Pagination waitLoadedAndScrollToItself() {
         waitUntilPageIsLoaded();
         scrollToItself();

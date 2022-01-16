@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import utils.Credentialable;
 import utils.Factory;
 import utils.ResultSearch;
 import utils.SaveToFile;
@@ -13,16 +14,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainPage extends BasePage {
+public class MainPage  extends BasePage implements Credentialable {
 
-    private static String xpLoginPage = "//a[@id=\"topLoginLink\"]";
-    private static String xpSearch = "//input[@id=\"headerSearch\"]";
-    private static String xpButtonSearch = "//input[@id=\"submit-searchmain\"]";
+    private static String xpLoginPage = "//a[@id='topLoginLink']";
+    private static String xpSearch = "//input[@id='headerSearch']";
+    private static String xpButtonSearch = "//input[@id='submit-searchmain']";
     private static String xpSearchPages = "//span[@class='item fleft']";
-    private static String xpSearchPagesBlock = "//span[@class=\"block fleft\"]";
-    private static String xpSearchResults = "//tr[@class=\"wrap\"]";
-    private static String xpSearchResultsTitle = "//td[@class=\"title-cell \"]";
-    private static String xpSearchResultsPrice = "//td[@class=\"wwnormal tright td-price\"]";
+    private static String xpSearchPagesBlock = "//span[@class='block fleft']";
+    private static String xpSearchResults = "//tr[@class='wrap']";
+    private static String xpSearchResultsTitle = "//td[@class='title-cell ']";
+    private static String xpSearchResultsPrice = "//td[@class='wwnormal tright td-price']";
 
     private static HashMap<Integer, WebElement> SearchPages = new HashMap();
     private static ArrayList<ResultSearch> ListResultSearch = new ArrayList<>();
@@ -41,7 +42,7 @@ public class MainPage extends BasePage {
         return Factory.initPage(MainPage.class);
     }
 
-    public void getResultSearchPage() {
+    public MainPage getResultSearchPage() {
         String NameLot;
         String Price;
         List<WebElement> ResultTitle;
@@ -56,16 +57,26 @@ public class MainPage extends BasePage {
             System.out.println("; Price = " + Price);
             ListResultSearch.add(new ResultSearch(NameLot, Price));
         }
+        return Factory.initPage(MainPage.class);
+    }
+
+    public MainPage getResultSearch(){
+        Pagination pagination = new Pagination();
+        for (int i = 1; i<=pagination.getLastPageNumber(); i++) {
+            pagination.goToPageByIndex(i);
+            getResultSearchPage();
+        }
+        return Factory.initPage(MainPage.class);
     }
 
     public String dateSave() {
         String nameFile = "output.csv";
-        String status = "Saving data to file \"" + nameFile + "\": error";
-        ;
+        String status = "Saving data to file '" + nameFile + "': error";
+
         try {
             SaveToFile SaveToFile = new SaveToFile();
             SaveToFile.saveDateToFile(ListResultSearch, nameFile);
-            status = "Saving data to file \"" + nameFile + "\": OK";
+            status = "Saving data to file '" + nameFile + "': OK";
         } catch (IOException e) {
             e.printStackTrace();
         }
