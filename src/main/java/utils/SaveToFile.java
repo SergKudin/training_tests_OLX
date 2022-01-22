@@ -16,10 +16,16 @@ public class SaveToFile {
         try {
             FileOutputStream writer = new FileOutputStream(nameFile);
             int i = 1;
-            String h = "№пп" + ";" + "Название" + ";" + "Стоимость" + System.getProperty("line.separator");
+            String h = "№пп" + ";"
+                    + "Название" + ";"
+                    + "Стоимость"+";"
+                    + "Ссылка" + System.getProperty("line.separator");
             writer.write(h.getBytes("Cp1251"));
             for (ResultSearch news : ListResultSearch) {
-                String s = i++ + ";" + news.getNameLot() + ";" + news.getPrice() + System.getProperty("line.separator");
+                String s = i++ + ";"
+                        + news.getNameLot() + ";"
+                        + news.getPrice() + ";"
+                        + news.getLink() + System.getProperty("line.separator");
                 writer.write(s.getBytes("Cp1251"));
             }
             writer.close();

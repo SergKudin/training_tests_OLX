@@ -4,11 +4,13 @@ public class ResultSearch {
 
     private String NameLot;
     private Integer Price;
+    private String Link;
 
-    public ResultSearch(String NameLot, String Price) {
+    public ResultSearch(String NameLot, String Price, String Link) {
         String Pr = Price;
         Pr = Pr.replaceAll("[^\\d]", "");
         this.NameLot = NameLot.replaceAll(";",",");
+        this.Link = Link;
         try {
             this.Price = Integer.parseInt(Pr);
         }
@@ -21,6 +23,8 @@ public class ResultSearch {
     public String getNameLot() {
         return NameLot;
     }
+
+    public String getLink() {return Link;}
 
     public Integer getPrice() {
         return Price;

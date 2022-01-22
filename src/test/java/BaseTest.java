@@ -8,7 +8,7 @@ import utils.Logger;
 public class BaseTest {
 
     protected static String Address = "https://www.olx.ua";//"https://www.olx.ua/";
-    protected static String request = "шуба из искуственного меха";
+    protected static String request = "ткань для тафтинга";  //ткань для тафтинга
     protected WebDriver driver;
 
     @BeforeClass

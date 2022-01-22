@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import utils.*;
 
@@ -14,6 +15,7 @@ public class SearchPage extends BasePage implements Credentialable {
 
     private static final String SEARCH_RESULTS_TITLE = "//td[@class='title-cell ']";
     private static final String SEARCH_RESULTS_PRICE = "//td[@class='wwnormal tright td-price']";
+    private static final String SEARCH_RESULTS_LINK = SEARCH_RESULTS_TITLE + "//a";
 
     private static final ArrayList<ResultSearch> ListResultSearch = new ArrayList<>();
     Pagination pagination = new Pagination();
@@ -26,19 +28,19 @@ public class SearchPage extends BasePage implements Credentialable {
     public SearchPage getResultSearchPage() {
         String NameLot;
         String Price;
+        String Link;
         List<WebElement> ResultTitle;
         List<WebElement> ResultPrice;
-        pagination.waitTable();
-        WebUtils.pause(100);
-        ResultTitle =  driver.findElements(By.xpath(SEARCH_RESULTS_TITLE));
-        ResultPrice =  driver.findElements(By.xpath(SEARCH_RESULTS_PRICE));
+        List<WebElement> ResultLink;
+        WebUtils.pause(1000);
+        ResultTitle = driver.findElements(By.xpath(SEARCH_RESULTS_TITLE));
+        ResultPrice = driver.findElements(By.xpath(SEARCH_RESULTS_PRICE));
+        ResultLink = driver.findElements(By.xpath(SEARCH_RESULTS_LINK));
         for (int i = 0; i < ResultTitle.size(); i++) {
             NameLot = ResultTitle.get(i).getText();
             Price = ResultPrice.get(i).getText();
-//            System.out.print(i);
-//            System.out.print(". " + NameLot);
-//            System.out.println("; Price = " + Price);
-            ListResultSearch.add(new ResultSearch(NameLot, Price));
+            Link = ResultLink.get(i).getAttribute("href");
+            ListResultSearch.add(new ResultSearch(NameLot, Price, Link));
         }
         return Factory.initPage(SearchPage.class);
     }
@@ -46,11 +48,13 @@ public class SearchPage extends BasePage implements Credentialable {
     public SearchPage getResultSearch() {
         Logger.logInfo("search results page №" + 1);
         getResultSearchPage();
-        for (int i = 2; i <= pagination.getPagesCount(); i++) {
-            pagination.goToPageByIndex(i);
-            Logger.logInfo("search results page №" + i);
-            getResultSearchPage();
-        }
+        try {
+            for (int i = 2; i <= pagination.getPagesCount(); i++) {
+                pagination.goToPageByIndex(i);
+                Logger.logInfo("search results page №" + i);
+                getResultSearchPage();
+            }
+        } catch (NoSuchElementException e){}
         return Factory.initPage(SearchPage.class);
     }
 
