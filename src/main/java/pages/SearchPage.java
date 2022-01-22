@@ -16,6 +16,7 @@ public class SearchPage extends BasePage implements Credentialable {
     private static final String SEARCH_RESULTS_PRICE = "//td[@class='wwnormal tright td-price']";
 
     private static final ArrayList<ResultSearch> ListResultSearch = new ArrayList<>();
+    Pagination pagination = new Pagination();
 
     public SearchPage() {
         super();
@@ -27,12 +28,14 @@ public class SearchPage extends BasePage implements Credentialable {
         String Price;
         List<WebElement> ResultTitle;
         List<WebElement> ResultPrice;
+        pagination.waitTable();
+        WebUtils.pause(100);
         ResultTitle =  driver.findElements(By.xpath(SEARCH_RESULTS_TITLE));
         ResultPrice =  driver.findElements(By.xpath(SEARCH_RESULTS_PRICE));
         for (int i = 0; i < ResultTitle.size(); i++) {
-            System.out.print(i);
             NameLot = ResultTitle.get(i).getText();
             Price = ResultPrice.get(i).getText();
+//            System.out.print(i);
 //            System.out.print(". " + NameLot);
 //            System.out.println("; Price = " + Price);
             ListResultSearch.add(new ResultSearch(NameLot, Price));
@@ -41,10 +44,11 @@ public class SearchPage extends BasePage implements Credentialable {
     }
 
     public SearchPage getResultSearch() {
-        Pagination pagination = new Pagination();
-        for (int i = 1; i <= pagination.getPagesCount(); i++) {
-            Logger.logInfo("search results page №" + i);
+        Logger.logInfo("search results page №" + 1);
+        getResultSearchPage();
+        for (int i = 2; i <= pagination.getPagesCount(); i++) {
             pagination.goToPageByIndex(i);
+            Logger.logInfo("search results page №" + i);
             getResultSearchPage();
         }
         return Factory.initPage(SearchPage.class);

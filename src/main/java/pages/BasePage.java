@@ -72,7 +72,7 @@ public class BasePage {
             }
         }
         logger.info(log.toString());
-        WebUtils.pause(900);
+        WebUtils.pause(100);
     }
 
     public MainPage gotoMainPage() {

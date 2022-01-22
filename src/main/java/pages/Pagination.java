@@ -14,6 +14,7 @@ public class Pagination extends BasePage {
     private final String LAST_PAGE_NUMBER = LAST_PAGE_BTN + "//span";
     private final String CURRENT_PAGE_NUMBER = BASE + "//span[@data-cy = 'page-link-current']";
     private final String FIRST_PAGE_BTN = BASE + "//*[@data-cy = 'page-link-prev']//ancestor::span//following-sibling::span[position() = 1]";
+    private final String PAGE_TABLE = "//div[@class = 'pager rel clr']";
 
     private int pageCount = -1;
 
@@ -41,6 +42,9 @@ public class Pagination extends BasePage {
     @FindBy(xpath = FIRST_PAGE_BTN)
     WebElement firstPageButton;
 
+    @FindBy(xpath = PAGE_TABLE)
+    WebElement pageTable;
+
     public Pagination() {
 
     }
@@ -65,7 +69,7 @@ public class Pagination extends BasePage {
         validateIndex(index);
         if (getCurrentPageNumber() == index) return this;
         if (getPagesCount() == index) {
-            goNextPage();
+            goLastPage();
             waitLoadedAndScrollToItself();
             return this;
         }
@@ -136,6 +140,11 @@ public class Pagination extends BasePage {
     private int getCurrentPageNumber() {
         WebUtils.waitUntilElementVisible(currentPageNumber);
         return Integer.parseInt(currentPageNumber.getAttribute("innerText"));
+    }
+
+    public Pagination waitTable() {
+        WebUtils.waitUntilElementVisible(pageTable);
+        return this;
     }
 
     public int getLastPageNumber() {
