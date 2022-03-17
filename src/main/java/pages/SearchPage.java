@@ -59,12 +59,15 @@ public class SearchPage extends BasePage implements Credentialable {
     }
 
     private String dateSave() {
-        String nameFile = "output.csv";
+        String nameFile = "output";
         String status = "Saving data to file '" + nameFile + "': error";
 
         try {
-            SaveToFile SaveToFile = new SaveToFile();
-            SaveToFile.saveDateToFile(ListResultSearch, nameFile);
+//            SaveToFileCSV SaveToFile = new SaveToFileCSV();
+//            SaveToFile.saveDateToFile(ListResultSearch, nameFile);
+            SaveToFileXLSX SaveToFile = new SaveToFileXLSX();
+            SaveToFile.saveDateToFileXLSX(ListResultSearch, nameFile);
+
             status = "Saving data to file '" + nameFile + "': OK";
         } catch (IOException e) {
             e.printStackTrace();
