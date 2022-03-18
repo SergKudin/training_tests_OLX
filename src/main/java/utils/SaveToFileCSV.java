@@ -4,17 +4,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class SaveToFile {
+public class SaveToFileCSV {
 
     private Object Exception;
 
 
-    public SaveToFile() throws IOException {
+    public SaveToFileCSV() throws IOException {
     }
 
     public Object saveDateToFile(ArrayList<ResultSearch> ListResultSearch, String nameFile) {
         try {
-            FileOutputStream writer = new FileOutputStream(nameFile);
+            FileOutputStream writer = new FileOutputStream(nameFile+".csv");
             int i = 1;
             String h = "№пп" + ";"
                     + "Название" + ";"
