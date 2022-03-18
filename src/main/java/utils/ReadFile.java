@@ -29,4 +29,5 @@ public class ReadFile {
     public String getStringDataFile(Integer n) {
         return listDataFile.get(n);
     }
+
 }

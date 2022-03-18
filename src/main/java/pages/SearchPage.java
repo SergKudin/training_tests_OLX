@@ -54,7 +54,8 @@ public class SearchPage extends BasePage implements Credentialable {
                 Logger.logInfo("search results page №" + i);
                 getResultSearchPage();
             }
-        } catch (NoSuchElementException e){}
+        } catch (NoSuchElementException e) {
+        }
         return Factory.initPage(SearchPage.class);
     }
 
@@ -67,8 +68,12 @@ public class SearchPage extends BasePage implements Credentialable {
 //            SaveToFile.saveDateToFile(ListResultSearch, nameFile);
             SaveToFileXLSX SaveToFile = new SaveToFileXLSX();
             SaveToFile.saveDateToFileXLSX(ListResultSearch, nameFile);
-
             status = "Saving data to file '" + nameFile + "': OK";
+
+//Chek
+            ReadFileXLSX ReadFile = new ReadFileXLSX(nameFile);
+            ReadFile.readToList();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
